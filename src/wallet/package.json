@@ -1,0 +1,17 @@
+{
+  "name": "wallet-module",
+  "version": "1.0.0",
+  "description": "Wallet module for backend project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1048.0",
+    "uuid": "^8.3.2",
+    "crypto-js": "^4.1.1"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "auth-module",
+  "version": "1.0.0",
+  "description": "Authentication module for backend project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1048.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^2.0.5"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
+  }
+}
