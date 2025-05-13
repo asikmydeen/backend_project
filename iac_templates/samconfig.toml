@@ -1,17 +1,17 @@
 version = 0.1
 [y.deploy.parameters]
-stack_name = "personal-api-stack"
+stack_name = "personal-backend-api"
 resolve_s3 = true
-s3_prefix = "personal-api-stack"
+s3_prefix = "personal-backend-api"
 region = "us-west-2"
 capabilities = "CAPABILITY_IAM CAPABILITY_NAMED_IAM"
 parameter_overrides = "KmsKeyArn=\"*\""
 image_repositories = []
 
 [default.deploy.parameters]
-stack_name = "personal-api-stack"
+stack_name = "personal-backend-api"
 resolve_s3 = true
-s3_prefix = "personal-api-stack"
+s3_prefix = "personal-backend-api"
 region = "us-west-2"
 capabilities = "CAPABILITY_IAM CAPABILITY_NAMED_IAM"
 parameter_overrides = "KmsKeyArn=\"*\""

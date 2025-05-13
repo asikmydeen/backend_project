@@ -1,0 +1,13 @@
+{
+  "body": "{\"title\":\"Test Note\",\"content\":\"This is a test note\",\"tags\":[\"test\",\"api\"]}",
+  "requestContext": {
+    "authorizer": {
+      "claims": {
+        "sub": "f801a310-0071-70cd-b28c-d5b6c0d2fec8",
+        "email": "test@example.com"
+      }
+    }
+  },
+  "httpMethod": "POST",
+  "path": "/api/v1/notes"
+}
