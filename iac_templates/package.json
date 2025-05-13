@@ -1,0 +1,16 @@
+{
+  "name": "iac-templates",
+  "version": "1.0.0",
+  "description": "Infrastructure as Code templates for backend project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1048.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
+  }
+}

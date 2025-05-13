@@ -1,3 +1,4 @@
+
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
@@ -345,7 +346,8 @@ Resources:
   RegisterUserFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/auth/registerUser.handler
+      Handler: registerUser.handler
+      CodeUri: ../src/auth/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -354,15 +356,15 @@ Resources:
         RegisterUser:
           Type: Api
           Properties:
-            RestApiId: !Ref ApiGatewayAuthorizer # Reference the API Gateway with Authorizer
+            RestApiId: !Ref ApiGatewayAuthorizer
             Path: /api/v1/auth/register
             Method: post
-            # Public endpoint, no authorizer needed
 
   LoginUserFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/auth/loginUser.handler
+      Handler: loginUser.handler
+      CodeUri: ../src/auth/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Events:
         LoginUser:
@@ -371,12 +373,12 @@ Resources:
             RestApiId: !Ref ApiGatewayAuthorizer
             Path: /api/v1/auth/login
             Method: post
-            # Public endpoint
 
   VerifyTokenFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/auth/verifyToken.handler
+      Handler: verifyToken.handler
+      CodeUri: ../src/auth/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Events:
         VerifyToken:
@@ -386,12 +388,13 @@ Resources:
             Path: /api/v1/auth/verify-token
             Method: get
             Auth:
-              Authorizer: CognitoAuthorizer # Protected endpoint
+              Authorizer: CognitoAuthorizer
 
   SignOutUserFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/auth/signOut.handler
+      Handler: signOut.handler
+      CodeUri: ../src/auth/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Events:
         SignOutUser:
@@ -401,12 +404,13 @@ Resources:
             Path: /api/v1/auth/signout
             Method: post
             Auth:
-              Authorizer: CognitoAuthorizer # Protected endpoint
+              Authorizer: CognitoAuthorizer
 
   ConfirmSignupFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/auth/confirmSignup.handler
+      Handler: confirmSignup.handler
+      CodeUri: ../src/auth/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Events:
         ConfirmSignup:
@@ -415,12 +419,12 @@ Resources:
             RestApiId: !Ref ApiGatewayAuthorizer
             Path: /api/v1/auth/confirm-signup
             Method: post
-            # Public endpoint
 
   ResendConfirmationCodeFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/auth/resendConfirmationCode.handler
+      Handler: resendConfirmationCode.handler
+      CodeUri: ../src/auth/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Events:
         ResendCode:
@@ -429,12 +433,12 @@ Resources:
             RestApiId: !Ref ApiGatewayAuthorizer
             Path: /api/v1/auth/resend-confirmation-code
             Method: post
-            # Public endpoint
 
   ForgotPasswordFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/auth/forgotPassword.handler
+      Handler: forgotPassword.handler
+      CodeUri: ../src/auth/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Events:
         ForgotPassword:
@@ -443,12 +447,12 @@ Resources:
             RestApiId: !Ref ApiGatewayAuthorizer
             Path: /api/v1/auth/forgot-password
             Method: post
-            # Public endpoint
 
   ConfirmForgotPasswordFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/auth/confirmForgotPassword.handler
+      Handler: confirmForgotPassword.handler
+      CodeUri: ../src/auth/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Events:
         ConfirmForgotPassword:
@@ -457,13 +461,13 @@ Resources:
             RestApiId: !Ref ApiGatewayAuthorizer
             Path: /api/v1/auth/confirm-forgot-password
             Method: post
-            # Public endpoint
 
   # --- User Profile Module Lambdas ---
   GetUserProfileFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/users/getUserProfile.handler
+      Handler: getUserProfile.handler
+      CodeUri: ../src/users/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -473,7 +477,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/users/profile # Path from todo.md
+            Path: /api/v1/users/profile
             Method: get
             Auth:
               Authorizer: CognitoAuthorizer
@@ -481,7 +485,8 @@ Resources:
   UpdateUserProfileFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/users/updateUserProfile.handler
+      Handler: updateUserProfile.handler
+      CodeUri: ../src/users/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -491,7 +496,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/users/profile # Path from todo.md
+            Path: /api/v1/users/profile
             Method: put
             Auth:
               Authorizer: CognitoAuthorizer
@@ -499,7 +504,8 @@ Resources:
   UpdateUserSettingsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/users/updateUserSettings.handler
+      Handler: updateUserSettings.handler
+      CodeUri: ../src/users/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -509,8 +515,8 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/users/settings # Path from todo.md
-            Method: patch # Or PUT, depending on API design
+            Path: /api/v1/users/settings
+            Method: patch
             Auth:
               Authorizer: CognitoAuthorizer
 
@@ -518,7 +524,8 @@ Resources:
   CreateNoteFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/notes/createNote.handler
+      Handler: createNote.handler
+      CodeUri: ../src/notes/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -536,7 +543,8 @@ Resources:
   ListNotesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/notes/listNotes.handler
+      Handler: listNotes.handler
+      CodeUri: ../src/notes/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -554,7 +562,8 @@ Resources:
   GetNoteFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/notes/getNote.handler
+      Handler: getNote.handler
+      CodeUri: ../src/notes/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -572,7 +581,8 @@ Resources:
   UpdateNoteFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/notes/updateNote.handler
+      Handler: updateNote.handler
+      CodeUri: ../src/notes/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -590,7 +600,8 @@ Resources:
   DeleteNoteFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/notes/deleteNote.handler
+      Handler: deleteNote.handler
+      CodeUri: ../src/notes/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -608,7 +619,8 @@ Resources:
   SearchNotesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/notes/searchNotes.handler
+      Handler: searchNotes.handler
+      CodeUri: ../src/notes/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -618,7 +630,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/notes/search # Query param q handled in lambda
+            Path: /api/v1/notes/search
             Method: get
             Auth:
               Authorizer: CognitoAuthorizer
@@ -626,19 +638,135 @@ Resources:
   ListNotesByTagFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/notes/listNotesByTag.handler
+      Handler: listNotesByTag.handler
+      CodeUri: ../src/notes/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           NOTES_TABLE_NAME: !Ref NotesTable
-          NOTES_TAGS_GSI_NAME: NotesByTagGSI # GSI name
+          NOTES_TAGS_GSI_NAME: NotesByTagGSI
       Events:
         ListNotesByTag:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/notes/tags # Query param tags_like handled in lambda
+            Path: /api/v1/notes/tags
             Method: get
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  # --- Voice Memos Module Lambdas ---
+  InitiateVoiceMemoUploadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: initiateVoiceMemoUpload.handler
+      CodeUri: ../src/voicememos/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
+      Events:
+        InitiateVoiceMemoUpload:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/voicememos/initiate-upload
+            Method: post
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  ListVoiceMemosFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: listVoiceMemos.handler
+      CodeUri: ../src/voicememos/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
+      Events:
+        ListVoiceMemos:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/voicememos
+            Method: get
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  GetVoiceMemoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: getVoiceMemo.handler
+      CodeUri: ../src/voicememos/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
+      Events:
+        GetVoiceMemo:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/voicememos/{id}
+            Method: get
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  UpdateVoiceMemoMetadataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: updateVoiceMemoMetadata.handler
+      CodeUri: ../src/voicememos/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
+      Events:
+        UpdateVoiceMemoMetadata:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/voicememos/{id}/metadata
+            Method: put
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  DeleteVoiceMemoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: deleteVoiceMemo.handler
+      CodeUri: ../src/voicememos/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
+      Events:
+        DeleteVoiceMemo:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/voicememos/{id}
+            Method: delete
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  TranscribeVoiceMemoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: transcribeVoiceMemo.handler
+      CodeUri: ../src/voicememos/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
+      Events:
+        TranscribeVoiceMemo:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/voicememos/{id}/transcribe
+            Method: post
             Auth:
               Authorizer: CognitoAuthorizer
 
@@ -646,7 +774,8 @@ Resources:
   CreateBookmarkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/bookmarks/createBookmark.handler
+      Handler: createBookmark.handler
+      CodeUri: ../src/bookmarks/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -664,7 +793,8 @@ Resources:
   ListBookmarksFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/bookmarks/listBookmarks.handler
+      Handler: listBookmarks.handler
+      CodeUri: ../src/bookmarks/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -682,7 +812,8 @@ Resources:
   GetBookmarkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/bookmarks/getBookmark.handler
+      Handler: getBookmark.handler
+      CodeUri: ../src/bookmarks/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -700,7 +831,8 @@ Resources:
   UpdateBookmarkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/bookmarks/updateBookmark.handler
+      Handler: updateBookmark.handler
+      CodeUri: ../src/bookmarks/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -718,7 +850,8 @@ Resources:
   DeleteBookmarkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/bookmarks/deleteBookmark.handler
+      Handler: deleteBookmark.handler
+      CodeUri: ../src/bookmarks/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -774,7 +907,8 @@ Resources:
   CreateBookmarkFolderFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/bookmark_folders/createBookmarkFolder.handler
+      Handler: createBookmarkFolder.handler
+      CodeUri: ../src/bookmark_folders/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -792,7 +926,8 @@ Resources:
   ListBookmarkFoldersFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/bookmark_folders/listBookmarkFolders.handler
+      Handler: listBookmarkFolders.handler
+      CodeUri: ../src/bookmark_folders/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -810,7 +945,8 @@ Resources:
   GetBookmarkFolderFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/bookmark_folders/getBookmarkFolder.handler
+      Handler: getBookmarkFolder.handler
+      CodeUri: ../src/bookmark_folders/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -828,7 +964,8 @@ Resources:
   UpdateBookmarkFolderFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/bookmark_folders/updateBookmarkFolder.handler
+      Handler: updateBookmarkFolder.handler
+      CodeUri: ../src/bookmark_folders/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -846,7 +983,8 @@ Resources:
   DeleteBookmarkFolderFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/bookmark_folders/deleteBookmarkFolder.handler
+      Handler: deleteBookmarkFolder.handler
+      CodeUri: ../src/bookmark_folders/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -861,86 +999,12 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
-  AddBookmarkToFolderFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/bookmark_folders/addBookmarkToFolder.handler
-      Role: !GetAtt LambdaDefaultExecutionRole.Arn
-      Environment:
-        Variables:
-          BOOKMARK_FOLDERS_TABLE_NAME: !Ref BookmarkFoldersTable
-          BOOKMARKS_TABLE_NAME: !Ref BookmarksTable # Need to access bookmarks too
-      Events:
-        AddBookmarkToFolder:
-          Type: Api
-          Properties:
-            RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/bookmark-folders/{folderId}/bookmarks
-            Method: post
-            Auth:
-              Authorizer: CognitoAuthorizer
-
-  RemoveBookmarkFromFolderFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/bookmark_folders/removeBookmarkFromFolder.handler
-      Role: !GetAtt LambdaDefaultExecutionRole.Arn
-      Environment:
-        Variables:
-          BOOKMARK_FOLDERS_TABLE_NAME: !Ref BookmarkFoldersTable
-          BOOKMARKS_TABLE_NAME: !Ref BookmarksTable # Need to access bookmarks too
-      Events:
-        RemoveBookmarkFromFolder:
-          Type: Api
-          Properties:
-            RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/bookmark-folders/{folderId}/bookmarks/{bookmarkId}
-            Method: delete
-            Auth:
-              Authorizer: CognitoAuthorizer
-
-  ListBookmarksInFolderFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/bookmark_folders/listBookmarksInFolder.handler
-      Role: !GetAtt LambdaDefaultExecutionRole.Arn
-      Environment:
-        Variables:
-          BOOKMARK_FOLDERS_TABLE_NAME: !Ref BookmarkFoldersTable
-          BOOKMARKS_TABLE_NAME: !Ref BookmarksTable # Need to access bookmarks too
-      Events:
-        ListBookmarksInFolder:
-          Type: Api
-          Properties:
-            RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/bookmark-folders/{folderId}/bookmarks
-            Method: get
-            Auth:
-              Authorizer: CognitoAuthorizer
-
   # --- Password Entries Module Lambdas ---
-  CreatePasswordEntryFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/passwords/createPasswordEntry.handler
-      Role: !GetAtt LambdaDefaultExecutionRole.Arn
-      Environment:
-        Variables:
-          PASSWORD_ENTRIES_TABLE_NAME: !Ref PasswordEntriesTable
-      Events:
-        CreatePasswordEntry:
-          Type: Api
-          Properties:
-            RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/passwords
-            Method: post
-            Auth:
-              Authorizer: CognitoAuthorizer
-
   ListPasswordEntriesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/passwords/listPasswordEntries.handler
+      Handler: listPasswordEntries.handler
+      CodeUri: ../src/passwords/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -958,7 +1022,8 @@ Resources:
   GetPasswordEntryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/passwords/getPasswordEntry.handler
+      Handler: getPasswordEntry.handler
+      CodeUri: ../src/passwords/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -976,7 +1041,8 @@ Resources:
   UpdatePasswordEntryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/passwords/updatePasswordEntry.handler
+      Handler: updatePasswordEntry.handler
+      CodeUri: ../src/passwords/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -994,7 +1060,8 @@ Resources:
   DeletePasswordEntryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/passwords/deletePasswordEntry.handler
+      Handler: deletePasswordEntry.handler
+      CodeUri: ../src/passwords/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1009,66 +1076,12 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
-  SearchPasswordEntriesFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/passwords/searchPasswordEntries.handler
-      Role: !GetAtt LambdaDefaultExecutionRole.Arn
-      Environment:
-        Variables:
-          PASSWORD_ENTRIES_TABLE_NAME: !Ref PasswordEntriesTable
-      Events:
-        SearchPasswordEntries:
-          Type: Api
-          Properties:
-            RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/passwords/search # Query param q handled in lambda
-            Method: get
-            Auth:
-              Authorizer: CognitoAuthorizer
-
-  ListPasswordEntriesByCategoryFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/passwords/listPasswordEntriesByCategory.handler
-      Role: !GetAtt LambdaDefaultExecutionRole.Arn
-      Environment:
-        Variables:
-          PASSWORD_ENTRIES_TABLE_NAME: !Ref PasswordEntriesTable
-          PASSWORD_ENTRIES_CATEGORY_GSI_NAME: PasswordEntriesByCategoryGSI # GSI name
-      Events:
-        ListPasswordEntriesByCategory:
-          Type: Api
-          Properties:
-            RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/passwords/category/{category} # Path param category handled in lambda
-            Method: get
-            Auth:
-              Authorizer: CognitoAuthorizer
-
-  GetPasswordAuditTrailFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/passwords/getPasswordAuditTrail.handler
-      Role: !GetAtt LambdaDefaultExecutionRole.Arn
-      Environment:
-        Variables:
-          PASSWORD_ENTRIES_TABLE_NAME: !Ref PasswordEntriesTable # Assuming audit trail is part of the entry
-      Events:
-        GetPasswordAuditTrail:
-          Type: Api
-          Properties:
-            RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/passwords/{id}/audit
-            Method: get
-            Auth:
-              Authorizer: CognitoAuthorizer
-
-  # --- Wallet Module Lambdas ---
+  # --- Wallet Cards Module Lambdas ---
   CreateWalletCardFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/wallet/createWalletCard.handler
+      Handler: createWalletCard.handler
+      CodeUri: ../src/wallet/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1086,7 +1099,8 @@ Resources:
   ListWalletCardsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/wallet/listWalletCards.handler
+      Handler: listWalletCards.handler
+      CodeUri: ../src/wallet/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1104,7 +1118,8 @@ Resources:
   GetWalletCardFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/wallet/getWalletCard.handler
+      Handler: getWalletCard.handler
+      CodeUri: ../src/wallet/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1122,7 +1137,8 @@ Resources:
   UpdateWalletCardFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/wallet/updateWalletCard.handler
+      Handler: updateWalletCard.handler
+      CodeUri: ../src/wallet/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1140,7 +1156,8 @@ Resources:
   DeleteWalletCardFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/wallet/deleteWalletCard.handler
+      Handler: deleteWalletCard.handler
+      CodeUri: ../src/wallet/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1159,12 +1176,12 @@ Resources:
   InitiateVoiceMemoUploadFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/voicememos/initiateVoiceMemoUpload.handler
+      Handler: initiateVoiceMemoUpload.handler
+      CodeUri: ../src/voicememos/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
-          # S3_BUCKET_NAME: !Ref VoiceMemosBucket # If using a dedicated bucket
       Events:
         InitiateVoiceMemoUpload:
           Type: Api
@@ -1175,28 +1192,11 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
-  CreateVoiceMemoMetadataFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/voicememos/createVoiceMemoMetadata.handler
-      Role: !GetAtt LambdaDefaultExecutionRole.Arn
-      Environment:
-        Variables:
-          VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
-      Events:
-        CreateVoiceMemoMetadata:
-          Type: Api
-          Properties:
-            RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/voicememos
-            Method: post
-            Auth:
-              Authorizer: CognitoAuthorizer
-
   ListVoiceMemosFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/voicememos/listVoiceMemos.handler
+      Handler: listVoiceMemos.handler
+      CodeUri: ../src/voicememos/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1211,20 +1211,21 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
-  GetVoiceMemoMetadataFunction:
+  GetVoiceMemoFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/voicememos/getVoiceMemoMetadata.handler
+      Handler: getVoiceMemo.handler
+      CodeUri: ../src/voicememos/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
       Events:
-        GetVoiceMemoMetadata:
+        GetVoiceMemo:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/voicememos/{id}/metadata # Or just /voicememos/{id} if metadata is primary info
+            Path: /api/v1/voicememos/{id}
             Method: get
             Auth:
               Authorizer: CognitoAuthorizer
@@ -1232,7 +1233,8 @@ Resources:
   UpdateVoiceMemoMetadataFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/voicememos/updateVoiceMemoMetadata.handler
+      Handler: updateVoiceMemoMetadata.handler
+      CodeUri: ../src/voicememos/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1242,7 +1244,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/voicememos/{id}/metadata # Or just /voicememos/{id}
+            Path: /api/v1/voicememos/{id}/metadata
             Method: put
             Auth:
               Authorizer: CognitoAuthorizer
@@ -1250,12 +1252,12 @@ Resources:
   DeleteVoiceMemoFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/voicememos/deleteVoiceMemo.handler
+      Handler: deleteVoiceMemo.handler
+      CodeUri: ../src/voicememos/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
-          # S3_BUCKET_NAME: !Ref VoiceMemosBucket # If deleting from S3 as well
       Events:
         DeleteVoiceMemo:
           Type: Api
@@ -1266,35 +1268,15 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
-  DownloadVoiceMemoPresignedUrlFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/voicememos/downloadVoiceMemoPresignedUrl.handler
-      Role: !GetAtt LambdaDefaultExecutionRole.Arn
-      Environment:
-        Variables:
-          VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
-          # S3_BUCKET_NAME: !Ref VoiceMemosBucket
-      Events:
-        DownloadVoiceMemoPresignedUrl:
-          Type: Api
-          Properties:
-            RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/voicememos/{id}/download # Or /voicememos/{id}/url
-            Method: get
-            Auth:
-              Authorizer: CognitoAuthorizer
-
   TranscribeVoiceMemoFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/voicememos/transcribeVoiceMemo.handler
+      Handler: transcribeVoiceMemo.handler
+      CodeUri: ../src/voicememos/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           VOICE_MEMOS_TABLE_NAME: !Ref VoiceMemosTable
-          # S3_BUCKET_NAME: !Ref VoiceMemosBucket
-          # TRANSCRIPTION_SERVICE_ENDPOINT: ... # If using a separate service
       Events:
         TranscribeVoiceMemo:
           Type: Api
@@ -1309,12 +1291,12 @@ Resources:
   InitiateFileUploadFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/files/initiateFileUpload.handler
+      Handler: initiateFileUpload.handler
+      CodeUri: ../src/files/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           FILES_TABLE_NAME: !Ref FilesTable
-          # S3_BUCKET_NAME: !Ref FilesBucket
       Events:
         InitiateFileUpload:
           Type: Api
@@ -1328,7 +1310,8 @@ Resources:
   CreateFileMetadataFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/files/createFileMetadata.handler
+      Handler: createFileMetadata.handler
+      CodeUri: ../src/files/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1346,7 +1329,8 @@ Resources:
   ListFilesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/files/listFiles.handler
+      Handler: listFiles.handler
+      CodeUri: ../src/files/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1382,7 +1366,8 @@ Resources:
   UpdateFileMetadataFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/files/updateFileMetadata.handler
+      Handler: updateFileMetadata.handler
+      CodeUri: ../src/files/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1392,7 +1377,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/files/{id}/metadata # Or just /files/{id}
+            Path: /api/v1/files/{id}/metadata
             Method: put
             Auth:
               Authorizer: CognitoAuthorizer
@@ -1400,12 +1385,12 @@ Resources:
   DeleteFileFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/files/deleteFile.handler
+      Handler: deleteFile.handler
+      CodeUri: ../src/files/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           FILES_TABLE_NAME: !Ref FilesTable
-          # S3_BUCKET_NAME: !Ref FilesBucket # If deleting from S3 as well
       Events:
         DeleteFile:
           Type: Api
@@ -1439,7 +1424,8 @@ Resources:
   CreateFolderFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/folders/createFolder.handler
+      Handler: createFolder.handler
+      CodeUri: ../src/folders/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1457,7 +1443,8 @@ Resources:
   ListFoldersFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/folders/listFolders.handler
+      Handler: listFolders.handler
+      CodeUri: ../src/folders/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1475,7 +1462,8 @@ Resources:
   GetFolderFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/folders/getFolder.handler
+      Handler: getFolder.handler
+      CodeUri: ../src/folders/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1493,7 +1481,8 @@ Resources:
   UpdateFolderFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/folders/updateFolder.handler
+      Handler: updateFolder.handler
+      CodeUri: ../src/folders/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1531,12 +1520,12 @@ Resources:
   InitiatePhotoUploadFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/photos/initiatePhotoUpload.handler
+      Handler: initiatePhotoUpload.handler
+      CodeUri: ../src/photos/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           PHOTOS_TABLE_NAME: !Ref PhotosTable
-          # S3_BUCKET_NAME: !Ref PhotosBucket
       Events:
         InitiatePhotoUpload:
           Type: Api
@@ -1550,7 +1539,8 @@ Resources:
   CompletePhotoUploadFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/photos/completePhotoUpload.handler
+      Handler: completePhotoUpload.handler
+      CodeUri: ../src/photos/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1560,15 +1550,16 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/photos # Or /photos/{id}/complete, etc.
-            Method: post # Or PUT
+            Path: /api/v1/photos
+            Method: post
             Auth:
               Authorizer: CognitoAuthorizer
 
   ListPhotosFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/photos/listPhotos.handler
+      Handler: listPhotos.handler
+      CodeUri: ../src/photos/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1586,8 +1577,9 @@ Resources:
   GetPhotoDetailsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/photos/getPhotoDetails.handler
-      Role: !GetAtt Lambda_DefaultExecutionRole.Arn
+      Handler: getPhotoDetails.handler
+      CodeUri: ../src/photos/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           PHOTOS_TABLE_NAME: !Ref PhotosTable
@@ -1604,7 +1596,8 @@ Resources:
   UpdatePhotoDetailsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/photos/updatePhotoDetails.handler
+      Handler: updatePhotoDetails.handler
+      CodeUri: ../src/photos/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1622,12 +1615,12 @@ Resources:
   DeletePhotoFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/photos/deletePhoto.handler
+      Handler: deletePhoto.handler
+      CodeUri: ../src/photos/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           PHOTOS_TABLE_NAME: !Ref PhotosTable
-          # S3_BUCKET_NAME: !Ref PhotosBucket # If deleting from S3 as well
       Events:
         DeletePhoto:
           Type: Api
@@ -1642,7 +1635,8 @@ Resources:
   CreateAlbumFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/albums/createAlbum.handler
+      Handler: createAlbum.handler
+      CodeUri: ../src/albums/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1660,7 +1654,8 @@ Resources:
   ListAlbumsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/albums/listAlbums.handler
+      Handler: listAlbums.handler
+      CodeUri: ../src/albums/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1678,7 +1673,8 @@ Resources:
   GetAlbumFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/albums/getAlbum.handler
+      Handler: getAlbum.handler
+      CodeUri: ../src/albums/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1697,7 +1693,8 @@ Resources:
   UpdateAlbumFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/albums/updateAlbum.handler
+      Handler: updateAlbum.handler
+      CodeUri: ../src/albums/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1715,7 +1712,8 @@ Resources:
   DeleteAlbumFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/albums/deleteAlbum.handler
+      Handler: deleteAlbum.handler
+      CodeUri: ../src/albums/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1734,7 +1732,8 @@ Resources:
   AddPhotoToAlbumFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/albums/addPhotoToAlbum.handler
+      Handler: addPhotoToAlbum.handler
+      CodeUri: ../src/albums/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1753,7 +1752,8 @@ Resources:
   RemovePhotoFromAlbumFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/albums/removePhotoFromAlbum.handler
+      Handler: removePhotoFromAlbum.handler
+      CodeUri: ../src/albums/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1773,12 +1773,12 @@ Resources:
   InitiateResumeUploadFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/resume/initiateResumeUpload.handler
+      Handler: initiateResumeUpload.handler
+      CodeUri: ../src/resume/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           RESUME_VERSIONS_TABLE_NAME: !Ref ResumeVersionsTable
-          # S3_BUCKET_NAME: !Ref ResumesBucket
       Events:
         InitiateResumeUpload:
           Type: Api
@@ -1792,7 +1792,8 @@ Resources:
   CreateResumeMetadataFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/resume/createResumeMetadata.handler
+      Handler: createResumeMetadata.handler
+      CodeUri: ../src/resume/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1810,7 +1811,8 @@ Resources:
   ListResumeVersionsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/resume/listResumeVersions.handler
+      Handler: listResumeVersions.handler
+      CodeUri: ../src/resume/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1828,7 +1830,8 @@ Resources:
   GetResumeVersionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/resume/getResumeVersion.handler
+      Handler: getResumeVersion.handler
+      CodeUri: ../src/resume/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1843,14 +1846,15 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
-  GetResumeFunction: # Get latest/active resume metadata
+  GetResumeFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/resume/getResume.handler
+      Handler: getResume.handler
+      CodeUri: ../src/resume/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
-          RESUME_VERSIONS_TABLE_NAME: !Ref ResumeVersionsTable # Or a dedicated ResumesTable
+          RESUME_VERSIONS_TABLE_NAME: !Ref ResumeVersionsTable
       Events:
         GetResume:
           Type: Api
@@ -1864,12 +1868,12 @@ Resources:
   DeleteResumeVersionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/resume/deleteResumeVersion.handler
+      Handler: deleteResumeVersion.handler
+      CodeUri: ../src/resume/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           RESUME_VERSIONS_TABLE_NAME: !Ref ResumeVersionsTable
-          # S3_BUCKET_NAME: !Ref ResumesBucket # If deleting from S3 as well
       Events:
         DeleteResumeVersion:
           Type: Api
@@ -1883,12 +1887,12 @@ Resources:
   DownloadResumeVersionPresignedUrlFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/resume/downloadResumeVersionPresignedUrl.handler
+      Handler: downloadResumeVersionPresignedUrl.handler
+      CodeUri: ../src/resume/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           RESUME_VERSIONS_TABLE_NAME: !Ref ResumeVersionsTable
-          # S3_BUCKET_NAME: !Ref ResumesBucket
       Events:
         DownloadResumeVersionPresignedUrl:
           Type: Api
@@ -1903,7 +1907,8 @@ Resources:
   CreateShareLinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/sharing/createShareLink.handler
+      Handler: createShareLink.handler
+      CodeUri: ../src/sharing/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1917,11 +1922,12 @@ Resources:
             Method: post
             Auth:
               Authorizer: CognitoAuthorizer
-
+              
   ListShareLinksFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/sharing/listShareLinks.handler
+      Handler: listShareLinks.handler
+      CodeUri: ../src/sharing/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1935,11 +1941,12 @@ Resources:
             Method: get
             Auth:
               Authorizer: CognitoAuthorizer
-
+              
   GetShareLinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/sharing/getShareLink.handler
+      Handler: getShareLink.handler
+      CodeUri: ../src/sharing/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1952,30 +1959,13 @@ Resources:
             Path: /api/v1/shares/{id}
             Method: get
             Auth:
-              Authorizer: CognitoAuthorizer # Or public if link is meant to be accessed without login
-
-  UpdateShareLinkFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/sharing/updateShareLink.handler
-      Role: !GetAtt LambdaDefaultExecutionRole.Arn
-      Environment:
-        Variables:
-          SHARE_LINKS_TABLE_NAME: !Ref ShareLinksTable
-      Events:
-        UpdateShareLink:
-          Type: Api
-          Properties:
-            RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/shares/{id}
-            Method: put
-            Auth:
               Authorizer: CognitoAuthorizer
-
+              
   DeleteShareLinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/sharing/deleteShareLink.handler
+      Handler: deleteShareLink.handler
+      CodeUri: ../src/sharing/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
@@ -1993,12 +1983,12 @@ Resources:
   AccessSharedItemFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/sharing/accessSharedItem.handler
+      Handler: accessSharedItem.handler
+      CodeUri: ../src/sharing/
       Role: !GetAtt LambdaDefaultExecutionRole.Arn
       Environment:
         Variables:
           SHARE_LINKS_TABLE_NAME: !Ref ShareLinksTable
-          # May need access to other tables like FilesTable, NotesTable etc.
           FILES_TABLE_NAME: !Ref FilesTable
           NOTES_TABLE_NAME: !Ref NotesTable
       Events:
@@ -2006,9 +1996,10 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/shares/access/{shareId} # Or /s/{shareId}
+            Path: /api/v1/shares/access/{shareId}
             Method: get
-            # This endpoint might be public or require auth depending on the design
+            Auth:
+              Authorizer: NONE  # Public access endpoint for shared items
 
   # --- Collaboration Module Lambdas ---
   InviteCollaboratorFunction:
@@ -2117,6 +2108,166 @@ Resources:
             RestApiId: !Ref ApiGatewayAuthorizer
             Path: /api/v1/collaborations/{id}/collaborators/{userId} # Or similar path structure
             Method: delete
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  # --- Comments Module Lambdas ---
+  CreateCommentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: createComment.handler
+      CodeUri: ../src/comments/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          COMMENTS_TABLE_NAME: !Ref CommentsTable
+      Events:
+        CreateComment:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/comments
+            Method: post
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  ListCommentsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: listComments.handler
+      CodeUri: ../src/comments/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          COMMENTS_TABLE_NAME: !Ref CommentsTable
+      Events:
+        ListComments:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/comments
+            Method: get
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  UpdateCommentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: updateComment.handler
+      CodeUri: ../src/comments/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          COMMENTS_TABLE_NAME: !Ref CommentsTable
+      Events:
+        UpdateComment:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/comments/{id}
+            Method: put
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  DeleteCommentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: deleteComment.handler
+      CodeUri: ../src/comments/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          COMMENTS_TABLE_NAME: !Ref CommentsTable
+      Events:
+        DeleteComment:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/comments/{id}
+            Method: delete
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  # --- Notifications Module Lambdas ---
+  ListNotificationsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: listNotifications.handler
+      CodeUri: ../src/notifications/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          NOTIFICATIONS_TABLE_NAME: !Ref NotificationsTable
+      Events:
+        ListNotifications:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/notifications
+            Method: get
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  MarkNotificationAsReadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: markNotificationAsRead.handler
+      CodeUri: ../src/notifications/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          NOTIFICATIONS_TABLE_NAME: !Ref NotificationsTable
+      Events:
+        MarkNotificationAsRead:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/notifications/{id}/read
+            Method: put
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  DeleteNotificationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: deleteNotification.handler
+      CodeUri: ../src/notifications/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          NOTIFICATIONS_TABLE_NAME: !Ref NotificationsTable
+      Events:
+        DeleteNotification:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/notifications/{id}
+            Method: delete
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  # --- Tags Module Lambdas ---
+  ListTagsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: listTags.handler
+      CodeUri: ../src/tags/
+      Role: !GetAtt LambdaDefaultExecutionRole.Arn
+      Environment:
+        Variables:
+          NOTES_TABLE_NAME: !Ref NotesTable
+          BOOKMARKS_TABLE_NAME: !Ref BookmarksTable
+          PHOTOS_TABLE_NAME: !Ref PhotosTable
+          NOTES_BY_USER_ID_GSI_NAME: "UserIdGSI"
+          BOOKMARKS_BY_USER_ID_GSI_NAME: "UserIdGSI"
+          PHOTOS_BY_USER_ID_GSI_NAME: "UserIdGSI"
+      Events:
+        ListTags:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ApiGatewayAuthorizer
+            Path: /api/v1/tags
+            Method: get
             Auth:
               Authorizer: CognitoAuthorizer
 
