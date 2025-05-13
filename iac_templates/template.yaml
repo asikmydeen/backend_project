@@ -23,6 +23,7 @@ Parameters:
   KmsKeyArn:
     Type: String
     Description: ARN of the KMS key for encryption/decryption.
+    Default: "*"  # Default to wildcard if no specific KMS key is provided
     # Example: arn:aws:kms:us-east-1:123456789012:key/your-key-id
 
 Resources:
@@ -1588,7 +1589,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/photos/{id}
+            Path: /api/v1/photos/{photoId}
             Method: get
             Auth:
               Authorizer: CognitoAuthorizer
@@ -1607,7 +1608,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/photos/{id}
+            Path: /api/v1/photos/{photoId}
             Method: put
             Auth:
               Authorizer: CognitoAuthorizer
@@ -1626,7 +1627,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/photos/{id}
+            Path: /api/v1/photos/{photoId}
             Method: delete
             Auth:
               Authorizer: CognitoAuthorizer
@@ -1685,7 +1686,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/albums/{id}
+            Path: /api/v1/albums/{albumId}
             Method: get
             Auth:
               Authorizer: CognitoAuthorizer
@@ -1704,7 +1705,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/albums/{id}
+            Path: /api/v1/albums/{albumId}
             Method: put
             Auth:
               Authorizer: CognitoAuthorizer
@@ -1724,7 +1725,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref ApiGatewayAuthorizer
-            Path: /api/v1/albums/{id}
+            Path: /api/v1/albums/{albumId}
             Method: delete
             Auth:
               Authorizer: CognitoAuthorizer
@@ -1922,7 +1923,7 @@ Resources:
             Method: post
             Auth:
               Authorizer: CognitoAuthorizer
-              
+
   ListShareLinksFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -1941,7 +1942,7 @@ Resources:
             Method: get
             Auth:
               Authorizer: CognitoAuthorizer
-              
+
   GetShareLinkFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -1960,7 +1961,7 @@ Resources:
             Method: get
             Auth:
               Authorizer: CognitoAuthorizer
-              
+
   DeleteShareLinkFunction:
     Type: AWS::Serverless::Function
     Properties:
